@@ -1,191 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" width="860" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 860 400" width="860" height="400">
   <defs>
-    <radialGradient id="coinFace" cx="38%" cy="32%" r="68%">
+    <radialGradient id="cg" cx="35%" cy="30%" r="70%">
       <stop offset="0%"   stop-color="#fde68a"/>
-      <stop offset="45%"  stop-color="#f59e0b"/>
+      <stop offset="50%"  stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#d97706"/>
     </radialGradient>
-    <radialGradient id="coinEdge" cx="50%" cy="50%" r="60%">
-      <stop offset="0%"   stop-color="#d97706"/>
-      <stop offset="100%" stop-color="#92400e"/>
-    </radialGradient>
-    <radialGradient id="bgLeft" cx="20%" cy="20%" r="80%">
-      <stop offset="0%"   stop-color="#1e2d4a"/>
+    <radialGradient id="bg" cx="20%" cy="20%" r="80%">
+      <stop offset="0%"  stop-color="#1e2d4a"/>
       <stop offset="100%" stop-color="#0f172a"/>
     </radialGradient>
-    <radialGradient id="glowBlob" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#f59e0b" stop-opacity="0.35"/>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#f59e0b" stop-opacity="0.45"/>
       <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#f59e0b" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="mintBlob" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#34d399" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="blur6">
-      <feGaussianBlur stdDeviation="6"/>
+    <filter id="blur8" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"/>
     </filter>
-    <filter id="blur14">
-      <feGaussianBlur stdDeviation="14"/>
+    <filter id="blur4" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4"/>
     </filter>
-    <filter id="coinGlow">
-      <feGaussianBlur stdDeviation="5" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <clipPath id="roundCard">
+    <clipPath id="clip">
       <rect width="860" height="400" rx="18"/>
     </clipPath>
   </defs>
 
-  <g clip-path="url(#roundCard)">
-    <!-- Parchment background (right side) -->
+  <g clip-path="url(#clip)">
+
+    <!-- Right parchment panel -->
     <rect width="860" height="400" fill="#fdf8ef"/>
 
-    <!-- Dot grid -->
-    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="0.9" fill="#0c0b08" fill-opacity="0.07"/>
-    </pattern>
-    <rect width="860" height="400" fill="url(#dots)"/>
+    <!-- Dot grid overlay -->
+    <rect width="860" height="400" fill="none" stroke="none">
+      <pattern id="dp" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="translate(0,0)">
+        <circle cx="1" cy="1" r="0.8" fill="#0c0b08" fill-opacity="0.08"/>
+      </pattern>
+    </rect>
 
-    <!-- Dark left panel -->
-    <rect width="460" height="400" fill="url(#bgLeft)"/>
+    <!-- Left dark panel -->
+    <rect width="460" height="400" fill="url(#bg)"/>
 
-    <!-- Ambient glows on dark panel -->
-    <ellipse cx="90" cy="70" rx="130" ry="110" fill="url(#glowBlob)" filter="url(#blur14)"/>
-    <ellipse cx="430" cy="360" rx="110" ry="80" fill="url(#mintBlob)" filter="url(#blur14)"/>
+    <!-- Ambient gold glow on dark panel -->
+    <ellipse cx="120" cy="80" rx="140" ry="110" fill="url(#glow)" filter="url(#blur8)"/>
 
-    <!-- Dollar/cent tile symbols on dark panel -->
-    <text x="22" y="42"  font-family="monospace" font-size="11" fill="white" fill-opacity="0.06">$</text>
-    <text x="62" y="78"  font-family="monospace" font-size="11" fill="white" fill-opacity="0.05">¢</text>
-    <text x="110" y="42" font-family="monospace" font-size="11" fill="white" fill-opacity="0.06">$</text>
-    <text x="150" y="78" font-family="monospace" font-size="11" fill="white" fill-opacity="0.05">¢</text>
-    <text x="198" y="42" font-family="monospace" font-size="11" fill="white" fill-opacity="0.06">$</text>
-    <text x="238" y="78" font-family="monospace" font-size="11" fill="white" fill-opacity="0.05">¢</text>
-    <text x="286" y="42" font-family="monospace" font-size="11" fill="white" fill-opacity="0.06">$</text>
-    <text x="326" y="78" font-family="monospace" font-size="11" fill="white" fill-opacity="0.05">¢</text>
-    <text x="374" y="42" font-family="monospace" font-size="11" fill="white" fill-opacity="0.06">$</text>
-    <text x="414" y="78" font-family="monospace" font-size="11" fill="white" fill-opacity="0.05">¢</text>
+    <!-- === LEFT PANEL TEXT === -->
 
-    <!-- === LEFT TEXT === -->
-    <!-- "Vault online" pill -->
-    <rect x="34" y="44" width="148" height="22" rx="11" fill="#10b981" fill-opacity="0.22" stroke="#10b981" stroke-width="1.2"/>
+    <!-- Status pill -->
+    <rect x="34" y="44" width="148" height="22" rx="11" fill="#10b981" fill-opacity="0.18" stroke="#10b981" stroke-width="1.2"/>
     <circle cx="50" cy="55" r="3.5" fill="#34d399">
-      <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.25;1" dur="2s" repeatCount="indefinite"/>
     </circle>
-    <text x="100" y="60" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#34d399" letter-spacing="1.5">VAULT ONLINE</text>
+    <text x="100" y="60" text-anchor="middle" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#34d399" letter-spacing="1.4">VAULT ONLINE</text>
 
-    <!-- Heading -->
-    <text x="34" y="108" font-family="'Arial Black', Arial, sans-serif" font-size="31" font-weight="900" fill="white" letter-spacing="-0.5">EVERY RECEIPT,</text>
-    <text x="34" y="144" font-family="'Arial Black', Arial, sans-serif" font-size="31" font-weight="900" fill="url(#coinFace)" letter-spacing="-0.5">FORGED IN GOLD.</text>
+    <!-- Main heading line 1 -->
+    <text x="34" y="108" font-family="Arial Black, Arial, sans-serif" font-size="30" font-weight="900" fill="white" letter-spacing="-0.5">EVERY RECEIPT,</text>
+
+    <!-- Main heading line 2 - gold -->
+    <text x="34" y="144" font-family="Arial Black, Arial, sans-serif" font-size="30" font-weight="900" fill="#f59e0b" letter-spacing="-0.5">FORGED IN GOLD.</text>
 
     <!-- Subtext -->
-    <text x="34" y="176" font-family="Arial, sans-serif" font-size="13" fill="white" fill-opacity="0.65">Drop a photo. We extract the merchant,</text>
-    <text x="34" y="195" font-family="Arial, sans-serif" font-size="13" fill="white" fill-opacity="0.65">date, total, and every line item.</text>
+    <text x="34" y="174" font-family="Arial, sans-serif" font-size="13" fill="white" fill-opacity="0.6">Drop a photo. We extract the merchant,</text>
+    <text x="34" y="192" font-family="Arial, sans-serif" font-size="13" fill="white" fill-opacity="0.6">date, total, and every line item.</text>
 
-    <!-- Stat boxes -->
-    <rect x="34"  y="226" width="108" height="64" rx="12" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.5"/>
-    <text x="88"  y="250" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="white" fill-opacity="0.45" letter-spacing="1.8">RECEIPTS</text>
-    <text x="88"  y="278" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="26" font-weight="900" fill="white">—</text>
+    <!-- Stat cards -->
+    <rect x="34"  y="220" width="108" height="64" rx="10" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.2"/>
+    <text x="88"  y="244" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" font-weight="bold" fill="white" fill-opacity="0.4" letter-spacing="1.6">RECEIPTS</text>
+    <text x="88"  y="272" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="26" font-weight="900" fill="white">&#x2014;</text>
 
-    <rect x="152" y="226" width="108" height="64" rx="12" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.5"/>
-    <text x="206" y="250" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="white" fill-opacity="0.45" letter-spacing="1.8">MERCHANTS</text>
-    <text x="206" y="278" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="26" font-weight="900" fill="white">—</text>
+    <rect x="152" y="220" width="108" height="64" rx="10" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.2"/>
+    <text x="206" y="244" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" font-weight="bold" fill="white" fill-opacity="0.4" letter-spacing="1.6">MERCHANTS</text>
+    <text x="206" y="272" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="26" font-weight="900" fill="white">&#x2014;</text>
 
-    <rect x="270" y="226" width="128" height="64" rx="12" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.5"/>
-    <text x="334" y="250" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="white" fill-opacity="0.45" letter-spacing="1.8">TOTAL SPEND</text>
-    <text x="334" y="278" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="22" font-weight="900" fill="white">$0.00</text>
+    <rect x="270" y="220" width="130" height="64" rx="10" fill="white" fill-opacity="0.07" stroke="white" stroke-opacity="0.12" stroke-width="1.2"/>
+    <text x="335" y="244" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" font-weight="bold" fill="white" fill-opacity="0.4" letter-spacing="1.6">TOTAL SPEND</text>
+    <text x="335" y="272" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="22" font-weight="900" fill="white">$0.00</text>
 
-    <!-- Upload button -->
-    <rect x="34" y="322" width="152" height="44" rx="10" fill="#f59e0b" stroke="#0c0b08" stroke-width="2.5"/>
-    <rect x="37" y="325" width="152" height="44" rx="10" fill="none" stroke="#0c0b08" stroke-width="0"/>
-    <text x="110" y="350" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="13" font-weight="800" fill="#0c0b08">? Upload Receipt</text>
+    <!-- Buttons -->
+    <rect x="34"  y="316" width="154" height="44" rx="10" fill="#f59e0b" stroke="#0c0b08" stroke-width="2.5"/>
+    <text x="111" y="344" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="13" font-weight="800" fill="#0c0b08">Upload Receipt</text>
 
-    <rect x="196" y="322" width="120" height="44" rx="10" fill="white" fill-opacity="0.09" stroke="white" stroke-opacity="0.18" stroke-width="1.5"/>
-    <text x="256" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="white" fill-opacity="0.85">Library ?</text>
-
-    <!-- === RIGHT: COIN SCENE === -->
-    <!-- Label -->
-    <text x="660" y="50" text-anchor="middle" font-family="monospace" font-size="9" font-weight="bold" fill="#0c0b08" fill-opacity="0.35" letter-spacing="3">? PALADIN GOLD</text>
-
-    <!-- Ground shadow (pulses) -->
-    <ellipse cx="660" cy="336" rx="54" ry="10" fill="url(#shadowGrad)" filter="url(#blur6)">
-      <animate attributeName="rx" values="54;42;54" dur="4s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4s" repeatCount="indefinite"/>
-    </ellipse>
-
-    <!-- Whole coin group floats up/down -->
-    <g>
-      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-9; 0,0" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
-
-      <!-- Coin body: edge shown by cycling scaleX 1?near0?1 -->
-      <g transform="translate(660,210)">
-        <!-- Coin face — scales on X to simulate spin -->
-        <ellipse cx="0" cy="0" rx="90" ry="90" fill="url(#coinFace)" stroke="#92400e" stroke-width="3" filter="url(#coinGlow)">
-          <animateTransform attributeName="transform" type="scale" values="1,1; 0.08,1; 1,1; 0.08,1; 1,1" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="3.4s" repeatCount="indefinite" additive="sum"/>
-        </ellipse>
-
-        <!-- Coin ring -->
-        <ellipse cx="0" cy="0" rx="66" ry="66" fill="none" stroke="white" stroke-opacity="0.28" stroke-width="1.8">
-          <animateTransform attributeName="transform" type="scale" values="1,1; 0.08,1; 1,1; 0.08,1; 1,1" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="3.4s" repeatCount="indefinite" additive="sum"/>
-        </ellipse>
-
-        <!-- P letter on coin face -->
-        <text x="0" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="900" fill="#92400e" fill-opacity="0.75">
-          P
-          <animateTransform attributeName="transform" type="scale" values="1,1; 0.08,1; 1,1; 0.08,1; 1,1" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="3.4s" repeatCount="indefinite" additive="sum"/>
-        </text>
-
-        <!-- Edge band (visible when face is thin) -->
-        <ellipse cx="0" cy="0" rx="90" ry="90" fill="url(#coinEdge)" stroke="#78350f" stroke-width="2">
-          <animate attributeName="opacity" values="0;1;0;1;0" keyTimes="0;0.24;0.26;0.74;0.76" dur="3.4s" repeatCount="indefinite"/>
-        </ellipse>
-      </g>
-
-      <!-- Gem 1 — gold, orbits -->
-      <g transform="translate(660,210)">
-        <rect x="-9" y="-9" width="18" height="18" rx="3" fill="#fbbf24" stroke="#0c0b08" stroke-width="1.5" transform="rotate(45)">
-          <animateTransform attributeName="transform" type="rotate" values="45;405" dur="6s" repeatCount="indefinite" additive="sum"/>
-        </rect>
-        <animateTransform attributeName="transform" type="translate" values="660,210; 660,210" dur="6s" repeatCount="indefinite"/>
-        <!-- Actually move in a circle -->
-        <animateMotion dur="6s" repeatCount="indefinite" path="M 110,0 A 110,40 0 1,1 109.9,0"/>
-      </g>
-
-      <!-- Gem 2 — mint, orbits offset -->
-      <g transform="translate(660,210)">
-        <rect x="-9" y="-9" width="16" height="16" rx="3" fill="#34d399" stroke="#0c0b08" stroke-width="1.5" transform="rotate(45)">
-          <animateTransform attributeName="transform" type="rotate" values="45;405" dur="6s" repeatCount="indefinite" additive="sum"/>
-        </rect>
-        <animateMotion dur="6s" begin="-2s" repeatCount="indefinite" path="M 110,0 A 110,40 0 1,1 109.9,0"/>
-      </g>
-
-      <!-- Gem 3 — pink, orbits offset -->
-      <g transform="translate(660,210)">
-        <rect x="-8" y="-8" width="16" height="16" rx="3" fill="#f472b6" stroke="#0c0b08" stroke-width="1.5" transform="rotate(45)">
-          <animateTransform attributeName="transform" type="rotate" values="45;405" dur="6s" repeatCount="indefinite" additive="sum"/>
-        </rect>
-        <animateMotion dur="6s" begin="-4s" repeatCount="indefinite" path="M 110,0 A 110,40 0 1,1 109.9,0"/>
-      </g>
-    </g>
+    <rect x="198" y="316" width="118" height="44" rx="10" fill="none" stroke="white" stroke-opacity="0.2" stroke-width="1.5"/>
+    <text x="257" y="344" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="white" fill-opacity="0.8">Library</text>
 
     <!-- Divider -->
     <line x1="460" y1="0" x2="460" y2="400" stroke="#0c0b08" stroke-width="2"/>
 
-    <!-- Card border -->
+    <!-- === RIGHT PANEL: ANIMATED COIN === -->
+
+    <!-- Coin label -->
+    <text x="660" y="54" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" font-weight="bold" fill="#0c0b08" fill-opacity="0.35" letter-spacing="3">PALADIN GOLD</text>
+
+    <!-- Floating group: coin + gems all move together -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-10; 0,0" dur="3.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+
+      <!-- Ground shadow -->
+      <ellipse cx="660" cy="332" rx="54" ry="9" fill="#f59e0b" fill-opacity="0.28" filter="url(#blur4)">
+        <animate attributeName="rx" values="54;40;54" dur="3.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+        <animate attributeName="opacity" values="0.28;0.1;0.28" dur="3.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+      </ellipse>
+
+      <!-- Coin face -->
+      <circle cx="660" cy="200" r="88" fill="url(#cg)" stroke="#78350f" stroke-width="3"/>
+
+      <!-- Coin inner ring -->
+      <circle cx="660" cy="200" r="65" fill="none" stroke="white" stroke-opacity="0.22" stroke-width="2"/>
+
+      <!-- P letter -->
+      <text x="660" y="225" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="bold" fill="#7c2d12" fill-opacity="0.72">P</text>
+
+      <!-- Coin highlight -->
+      <ellipse cx="630" cy="164" rx="24" ry="16" fill="white" fill-opacity="0.2" transform="rotate(-20 660 200)"/>
+
+      <!-- Orbiting gem 1: gold -->
+      <circle r="10" fill="#fbbf24" stroke="#0c0b08" stroke-width="1.5">
+        <animateMotion dur="5s" repeatCount="indefinite" path="M 660,200 m 110,0 a 110,38 0 0,1 -220,0 a 110,38 0 0,1 220,0"/>
+      </circle>
+
+      <!-- Orbiting gem 2: mint, offset -->
+      <circle r="9" fill="#34d399" stroke="#0c0b08" stroke-width="1.5">
+        <animateMotion dur="5s" begin="-1.67s" repeatCount="indefinite" path="M 660,200 m 110,0 a 110,38 0 0,1 -220,0 a 110,38 0 0,1 220,0"/>
+      </circle>
+
+      <!-- Orbiting gem 3: pink, offset -->
+      <circle r="9" fill="#f472b6" stroke="#0c0b08" stroke-width="1.5">
+        <animateMotion dur="5s" begin="-3.33s" repeatCount="indefinite" path="M 660,200 m 110,0 a 110,38 0 0,1 -220,0 a 110,38 0 0,1 220,0"/>
+      </circle>
+    </g>
+
+    <!-- Outer border -->
     <rect x="1" y="1" width="858" height="398" rx="18" fill="none" stroke="#0c0b08" stroke-width="2"/>
 
-    <!-- Bottom marquee strip -->
-    <rect x="0" y="372" width="860" height="28" fill="#0f172a"/>
-    <line x1="0" y1="372" x2="860" y2="372" stroke="#0c0b08" stroke-width="2"/>
-    <text font-family="monospace" font-size="10" font-weight="bold" fill="#f59e0b" letter-spacing="2.5">
-      <textPath href="#marquee-path">
-        KEEP YOUR RECEIPTS  ?  GUARD YOUR GOLD  ?  NO MORE SHOEBOXES  ?  A KNIGHT FOR YOUR FINANCES  ?  EVERY DOLLAR ACCOUNTED FOR  ?  STORE EVERY RECEIPT  ?  KEEP YOUR RECEIPTS  ?  GUARD YOUR GOLD  ?  NO MORE SHOEBOXES  ?  
-        <animate attributeName="startOffset" from="0%" to="-50%" dur="22s" repeatCount="indefinite"/>
-      </textPath>
-    </text>
-    <path id="marquee-path" d="M 0,390 H 1720" fill="none"/>
   </g>
 </svg>
