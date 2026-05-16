@@ -1,0 +1,75 @@
+[
+  {
+    "merchantRaw": "WALMART SUPERCENTER #4521",
+    "receiptDate": "2026-04-10",
+    "subtotal": 47.82,
+    "tax": 3.94,
+    "total": 51.76,
+    "currency": "USD",
+    "confidence": 0.95,
+    "items": [
+      { "name": "Great Value Milk 1gal", "quantity": 2, "unitPrice": 3.48, "totalPrice": 6.96 },
+      { "name": "Lay's Classic Chips", "quantity": 1, "unitPrice": 4.28, "totalPrice": 4.28 },
+      { "name": "Tide Pods 42ct", "quantity": 1, "unitPrice": 14.97, "totalPrice": 14.97 },
+      { "name": "Bananas 3lb", "quantity": 1, "unitPrice": 1.47, "totalPrice": 1.47 },
+      { "name": "White Bread Loaf", "quantity": 2, "unitPrice": 2.98, "totalPrice": 5.96 }
+    ]
+  },
+  {
+    "merchantRaw": "TARGET T-2088",
+    "receiptDate": "2026-04-14",
+    "subtotal": 62.15,
+    "tax": 5.11,
+    "total": 67.26,
+    "currency": "USD",
+    "confidence": 0.92,
+    "items": [
+      { "name": "Good & Gather Yogurt 4pk", "quantity": 2, "unitPrice": 5.99, "totalPrice": 11.98 },
+      { "name": "Notebook 5-Subject", "quantity": 3, "unitPrice": 4.99, "totalPrice": 14.97 },
+      { "name": "Method Hand Soap", "quantity": 1, "unitPrice": 3.79, "totalPrice": 3.79 },
+      { "name": "Cat9 USB Cable", "quantity": 1, "unitPrice": 12.99, "totalPrice": 12.99 }
+    ]
+  },
+  {
+    "merchantRaw": "H-E-B #514",
+    "receiptDate": "2026-04-18",
+    "subtotal": 33.40,
+    "tax": 2.75,
+    "total": 36.15,
+    "currency": "USD",
+    "confidence": 0.97,
+    "items": [
+      { "name": "Central Market Salsa 16oz", "quantity": 1, "unitPrice": 4.49, "totalPrice": 4.49 },
+      { "name": "HEB Tortilla Chips", "quantity": 2, "unitPrice": 3.29, "totalPrice": 6.58 },
+      { "name": "Avocados bag 4ct", "quantity": 1, "unitPrice": 5.99, "totalPrice": 5.99 },
+      { "name": "Ground Beef 80/20 1lb", "quantity": 2, "unitPrice": 5.49, "totalPrice": 10.98 }
+    ]
+  },
+  {
+    "merchantRaw": "WM SUPERCENTER #0099",
+    "receiptDate": "2026-05-01",
+    "subtotal": 21.00,
+    "tax": 1.73,
+    "total": 22.73,
+    "currency": "USD",
+    "confidence": 0.89,
+    "items": [
+      { "name": "Equate Shampoo 16oz", "quantity": 1, "unitPrice": 3.47, "totalPrice": 3.47 },
+      { "name": "Paper Towels 6 Roll", "quantity": 1, "unitPrice": 8.97, "totalPrice": 8.97 },
+      { "name": "AA Batteries 20pk", "quantity": 1, "unitPrice": 9.97, "totalPrice": 9.97 }
+    ]
+  },
+  {
+    "merchantRaw": "TARGET T-0391",
+    "receiptDate": "2026-05-08",
+    "subtotal": 88.55,
+    "tax": 7.30,
+    "total": 95.85,
+    "currency": "USD",
+    "confidence": 0.94,
+    "items": [
+      { "name": "Beats Fit Pro Earbuds", "quantity": 1, "unitPrice": 79.99, "totalPrice": 79.99 },
+      { "name": "Phone Case Clear", "quantity": 1, "unitPrice": 9.99, "totalPrice": 9.99 }
+    ]
+  }
+]

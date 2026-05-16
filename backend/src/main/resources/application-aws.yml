@@ -1,0 +1,6 @@
+paladin:
+  storage-mode: s3
+  extraction-mode: textract
+
+aws:
+  region: ${AWS_REGION:us-east-1}

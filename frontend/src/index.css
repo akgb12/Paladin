@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-parchment-50 text-ink-900 antialiased font-sans;
+    background-image:
+      radial-gradient(900px 600px at 95% -10%, rgba(245, 158, 11, 0.18) 0%, rgba(245, 158, 11, 0) 60%),
+      radial-gradient(700px 500px at -10% 110%, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0) 60%),
+      radial-gradient(circle at 1px 1px, rgba(12, 11, 8, 0.07) 1px, transparent 0);
+    background-size: auto, auto, 22px 22px;
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    background: #fbc94b;
+    color: #0c0b08;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl border-2 border-ink-900 shadow-brutal;
+  }
+  .card-soft {
+    @apply bg-white/95 backdrop-blur-sm rounded-2xl border-2 border-ink-900/90 shadow-brutal;
+  }
+  .card-flat {
+    @apply bg-white rounded-2xl border border-ink-200/80 shadow-soft;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl px-4 py-2.5 border-2 border-ink-900 transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0;
+  }
+  .btn-primary {
+    @apply btn bg-gold-gradient text-ink-900 shadow-brutal hover:brightness-105;
+  }
+  .btn-mint {
+    @apply btn bg-mint-gradient text-ink-900 shadow-brutal hover:brightness-105;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-ink-900 shadow-brutal hover:bg-parchment-100;
+  }
+  .btn-danger {
+    @apply btn bg-rose-100 text-rose-700 shadow-brutal hover:bg-rose-200;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-ink-600 hover:text-ink-900 font-medium rounded-xl px-3 py-2 transition;
+  }
+  .input {
+    @apply w-full bg-white border-2 border-ink-900 rounded-xl px-3.5 py-2 text-sm text-ink-900 placeholder-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-300 transition;
+  }
+  .label {
+    @apply block text-[10px] uppercase tracking-[0.18em] font-bold text-ink-600 mb-1.5 font-mono;
+  }
+  .chip {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider font-mono border-2 border-ink-900;
+  }
+  .tag-mono {
+    @apply inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.2em] font-mono font-bold text-ink-700;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 60%, #92400e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-mint {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-tile {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text x='2' y='14' font-family='JetBrains Mono, monospace' font-size='10' fill='rgba(255,255,255,0.08)'>$</text><text x='18' y='28' font-family='JetBrains Mono, monospace' font-size='10' fill='rgba(255,255,255,0.06)'>¢</text></svg>");
+    background-size: 32px 32px;
+  }
+}

@@ -1,0 +1,105 @@
+type Query {
+  receipts: [Receipt!]!
+  receipt(id: ID!): Receipt
+  receiptsByMerchant(merchant: String!): [Receipt!]!
+  receiptGroups: [ReceiptGroup!]!
+  searchReceipts(input: ReceiptSearchInput!): [Receipt!]!
+  dashboardSummary: DashboardSummary!
+}
+
+type Mutation {
+  uploadReceipt(input: UploadReceiptInput!): Receipt!
+  updateReceipt(input: UpdateReceiptInput!): Receipt!
+  deleteReceipt(id: ID!): Boolean!
+}
+
+type Receipt {
+  id: ID!
+  merchantRaw: String
+  merchantNormalized: String!
+  receiptDate: String
+  uploadTimestamp: String!
+  subtotal: Float
+  tax: Float
+  total: Float
+  currency: String
+  imageUrl: String
+  imageStorageKey: String!
+  status: ReceiptStatus!
+  confidence: Float
+  manuallyCorrected: Boolean!
+  items: [ReceiptItem!]!
+}
+
+type ReceiptItem {
+  name: String!
+  quantity: Float
+  unitPrice: Float
+  totalPrice: Float
+}
+
+type ReceiptGroup {
+  merchantNormalized: String!
+  receipts: [Receipt!]!
+  count: Int!
+  totalSpend: Float!
+}
+
+type DashboardSummary {
+  receiptCount: Int!
+  merchantCount: Int!
+  totalSpend: Float!
+  monthlySpend: [MonthlySpend!]!
+  merchantSpend: [MerchantSpend!]!
+}
+
+type MonthlySpend {
+  month: String!
+  total: Float!
+}
+
+type MerchantSpend {
+  merchantNormalized: String!
+  total: Float!
+}
+
+enum ReceiptStatus {
+  UPLOADED
+  EXTRACTED
+  NEEDS_REVIEW
+  CORRECTED
+  FAILED
+}
+
+input UploadReceiptInput {
+  fileName: String!
+  contentType: String!
+  base64Image: String!
+}
+
+input UpdateReceiptInput {
+  id: ID!
+  merchantNormalized: String
+  receiptDate: String
+  subtotal: Float
+  tax: Float
+  total: Float
+  currency: String
+  items: [ReceiptItemInput!]
+}
+
+input ReceiptItemInput {
+  name: String!
+  quantity: Float
+  unitPrice: Float
+  totalPrice: Float
+}
+
+input ReceiptSearchInput {
+  merchant: String
+  itemName: String
+  startDate: String
+  endDate: String
+  minTotal: Float
+  maxTotal: Float
+}

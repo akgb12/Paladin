@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: paladin-backend
+  graphql:
+    graphiql:
+      enabled: true
+    path: /graphql
+
+server:
+  port: 8080
+
+paladin:
+  dynamodb:
+    table: ${PALADIN_DYNAMODB_TABLE:PaladinReceipts}
+  local-storage-dir: ${PALADIN_LOCAL_STORAGE_DIR:./local-data/receipts}
+  s3-bucket: ${PALADIN_S3_BUCKET:paladin-receipts-dev}

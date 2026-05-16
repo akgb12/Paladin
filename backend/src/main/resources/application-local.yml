@@ -1,0 +1,8 @@
+paladin:
+  dynamodb:
+    endpoint: http://localhost:8000
+  storage-mode: local
+  extraction-mode: mock
+
+aws:
+  region: us-east-1

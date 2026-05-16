@@ -1,0 +1,31 @@
+# Maven build output
+backend/target/
+
+# Frontend dependencies and build
+frontend/node_modules/
+frontend/dist/
+
+# Local environment variables
+frontend/.env.local
+backend/.env
+
+# DynamoDB Local data files
+docker/dynamodb/*.db
+docker/dynamodb/*.db-shm
+docker/dynamodb/*.db-wal
+
+# Uploaded receipt images (keep directory via .gitkeep)
+local-data/receipts/*
+!local-data/receipts/.gitkeep
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IntelliJ / VS Code
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
