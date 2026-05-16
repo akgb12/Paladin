@@ -1,7 +1,7 @@
 # Paladin — Receipt Vault
 
 <p align="center">
-  <img src="preview-v3.svg" alt="Paladin — Receipt Vault preview" width="900"/>
+  <img src="demo.gif" alt="Paladin — Receipt Vault demo" width="900"/>
 </p>
 
 A cloud-native receipt vault. Upload receipt photos, extract structured data, and organize receipts by merchant and date.
