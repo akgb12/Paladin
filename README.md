@@ -10,8 +10,8 @@ A cloud-native receipt vault. Upload receipt photos, extract structured data, an
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 18, TypeScript, Vite, Apollo Client, React Router, Tailwind CSS, Recharts |
-| Backend | Java 21, Spring Boot 3, Spring for GraphQL |
+| Frontend | React.js, TypeScript, Vite, Apollo Client, React Router, Tailwind CSS, Recharts |
+| Backend | Java, Spring Boot, Spring for GraphQL |
 | Database | DynamoDB Local (dev) / AWS DynamoDB (prod) |
 | Storage | Local filesystem (dev) / AWS S3 (prod) |
 | Extraction | Mock Textract JSON (dev) / AWS Textract AnalyzeExpense (prod) |
