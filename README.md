@@ -12,6 +12,7 @@ A cloud-native receipt vault. Upload receipt photos, extract structured data, an
 |---|---|
 | Frontend | React.js, TypeScript, Vite, Apollo Client, React Router, Tailwind CSS, Recharts |
 | Backend | Java, Spring Boot, Spring for GraphQL |
+| Auth | Spring Security + Google OAuth2 (with dev-mode fallback) |
 | Database | DynamoDB Local (dev) / AWS DynamoDB (prod) |
 | Storage | Local filesystem (dev) / AWS S3 (prod) |
 | Extraction | Mock Textract JSON (dev) / AWS Textract AnalyzeExpense (prod) |
@@ -197,10 +198,48 @@ mutation {
 
 | Pattern | Key |
 |---|---|
-| All receipts for demo user | PK = `USER#demo`, SK begins_with `RECEIPT#` |
-| Receipt by ID | Scan all, filter by `receiptId` attribute |
-| Receipts by merchant | GSI1 PK = `MERCHANT#<merchantNormalized>` |
+| All receipts for a user | PK = `USER#<userId>`, SK begins_with `RECEIPT#` |
+| Receipt by ID | Scan user partition, filter by `receiptId` attribute |
+| Receipts by merchant | GSI1 PK = `USER#<userId>#MERCHANT#<merchantNormalized>` |
 | Sorted by receipt date | GSI1 SK = `DATE#<receiptDate>#<receiptId>` |
+
+For dev mode the user id is `demo`. For Google sign-in the user id is the Google `sub` claim.
+
+## Authentication
+
+Paladin uses Google OAuth2 via Spring Security. To make local development frictionless, the backend ships with a **dev-mode fallback**: when no Google credentials are configured, the login page offers a "Continue as Dev Knight" button that signs you in as a mock user (`demo`).
+
+### Dev mode (default)
+
+No setup required. Run the app and click **Continue as Dev Knight**.
+
+### Real Google sign-in
+
+1. In [Google Cloud Console](https://console.cloud.google.com/), create an OAuth 2.0 Client ID (type: Web application).
+2. **Authorized JavaScript origin:** `http://localhost:5173`
+3. **Authorized redirect URI:** `http://localhost:5173/login/oauth2/code/google` (port 5173, not 8080 — Google needs to redirect back through the Vite dev server so the session cookie is stored on the same origin as the frontend).
+4. Copy `backend/.env.example` to `backend/.env`, fill in your `GOOGLE_CLIENT_SECRET`, and load it before starting the backend. The example file already sets `SPRING_PROFILES_ACTIVE=local` (needed for the local `DynamoDbClient` bean), so all you need is:
+
+```bash
+cp backend/.env.example backend/.env
+# edit backend/.env, paste your Google client secret
+
+cd backend
+set -a && source .env && set +a   # loads SPRING_PROFILES_ACTIVE, GOOGLE_*, etc.
+mvn spring-boot:run
+```
+
+5. The login page will now show **Sign in with Google** and hide the dev button automatically.
+
+### Auth-related endpoints
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/auth/config` | Reports which sign-in options are enabled |
+| GET | `/api/auth/me` | Current user (or 401) |
+| POST | `/api/auth/dev-login` | Sign in as the mock dev user (dev-mode only) |
+| POST | `/api/auth/logout` | Invalidate the session |
+| GET | `/oauth2/authorization/google` | Spring Security OAuth2 entry point |
 
 ## AWS Deployment Plan
 
@@ -217,7 +256,6 @@ See `infra/README.md` for full deployment steps. Summary:
 
 - Real AWS Textract AnalyzeExpense integration.
 - Presigned S3 upload URLs to avoid large base64 payloads.
-- Authentication (Cognito or Auth.js).
 - Receipt image preview in the detail page (served from local storage or S3 CDN URL).
 - Pagination for large receipt collections.
 - CSV/PDF export.

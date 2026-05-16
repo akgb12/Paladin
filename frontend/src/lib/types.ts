@@ -1,3 +1,16 @@
+export interface User {
+  id: string
+  email: string | null
+  name: string | null
+  pictureUrl: string | null
+  provider: string | null
+}
+
+export interface AuthConfig {
+  googleEnabled: boolean
+  devLoginEnabled: boolean
+}
+
 export interface ReceiptItem {
   name: string
   quantity: number | null

@@ -1,5 +1,7 @@
 package com.paladin.receipt;
 
+import com.paladin.auth.CurrentUserProvider;
+import com.paladin.auth.User;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -11,9 +13,16 @@ import java.util.List;
 public class ReceiptGraphQLController {
 
     private final ReceiptService receiptService;
+    private final CurrentUserProvider currentUserProvider;
 
-    public ReceiptGraphQLController(ReceiptService receiptService) {
+    public ReceiptGraphQLController(ReceiptService receiptService, CurrentUserProvider currentUserProvider) {
         this.receiptService = receiptService;
+        this.currentUserProvider = currentUserProvider;
+    }
+
+    @QueryMapping
+    public User me() {
+        return currentUserProvider.getCurrentUser();
     }
 
     @QueryMapping

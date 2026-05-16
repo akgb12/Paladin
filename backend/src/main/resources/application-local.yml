@@ -3,6 +3,9 @@ paladin:
     endpoint: http://localhost:8000
   storage-mode: local
   extraction-mode: mock
+  auth:
+    google:
+      redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:5173/login/oauth2/code/google}
 
 aws:
   region: us-east-1

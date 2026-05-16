@@ -1,12 +1,13 @@
 package com.paladin.receipt;
 
+import com.paladin.auth.CurrentUserProvider;
+import com.paladin.auth.User;
 import com.paladin.dynamodb.ReceiptDynamoDbRepository;
 import com.paladin.storage.StorageService;
 import com.paladin.textract.ExtractedReceipt;
 import com.paladin.textract.ReceiptExtractionService;
 import org.springframework.stereotype.Service;
 
-import java.time.YearMonth;
 import java.util.*;
 
 @Service
@@ -15,16 +16,28 @@ public class ReceiptService {
     private final ReceiptDynamoDbRepository repository;
     private final StorageService storageService;
     private final ReceiptExtractionService extractionService;
+    private final CurrentUserProvider currentUserProvider;
 
     public ReceiptService(ReceiptDynamoDbRepository repository,
                           StorageService storageService,
-                          ReceiptExtractionService extractionService) {
+                          ReceiptExtractionService extractionService,
+                          CurrentUserProvider currentUserProvider) {
         this.repository = repository;
         this.storageService = storageService;
         this.extractionService = extractionService;
+        this.currentUserProvider = currentUserProvider;
+    }
+
+    private String requireUserId() {
+        User u = currentUserProvider.getCurrentUser();
+        if (u == null) {
+            throw new RuntimeException("Unauthenticated");
+        }
+        return u.getId();
     }
 
     public Receipt upload(UploadReceiptInput input) {
+        String userId = requireUserId();
         byte[] imageBytes = Base64.getDecoder().decode(input.getBase64Image());
         ExtractedReceipt extracted = extractionService.extract(imageBytes, input.getContentType());
         String tempId = "rec_" + UUID.randomUUID().toString().replace("-", "").substring(0, 12);
@@ -32,23 +45,23 @@ public class ReceiptService {
         Receipt receipt = ReceiptMapper.fromUpload(input, extracted, storageKey);
         receipt.setId(tempId);
         receipt.setImageUrl("/api/images/" + storageKey.substring(storageKey.lastIndexOf('/') + 1));
-        return repository.save(receipt);
+        return repository.save(userId, receipt);
     }
 
     public List<Receipt> getAllReceipts() {
-        return repository.findAll();
+        return repository.findAll(requireUserId());
     }
 
     public Optional<Receipt> getReceiptById(String id) {
-        return repository.findById(id);
+        return repository.findById(requireUserId(), id);
     }
 
     public List<Receipt> getReceiptsByMerchant(String merchant) {
-        return repository.findByMerchant(merchant);
+        return repository.findByMerchant(requireUserId(), merchant);
     }
 
     public List<ReceiptGroup> getReceiptGroups() {
-        List<Receipt> all = repository.findAll();
+        List<Receipt> all = repository.findAll(requireUserId());
         Map<String, List<Receipt>> grouped = new LinkedHashMap<>();
         for (Receipt r : all) {
             grouped.computeIfAbsent(r.getMerchantNormalized(), k -> new ArrayList<>()).add(r);
@@ -65,7 +78,7 @@ public class ReceiptService {
     }
 
     public List<Receipt> searchReceipts(ReceiptSearchInput input) {
-        List<Receipt> all = repository.findAll();
+        List<Receipt> all = repository.findAll(requireUserId());
         List<Receipt> result = new ArrayList<>();
         for (Receipt r : all) {
             if (!matchesSearch(r, input)) continue;
@@ -75,19 +88,20 @@ public class ReceiptService {
     }
 
     public Receipt update(UpdateReceiptInput input) {
-        Receipt existing = repository.findById(input.getId())
+        String userId = requireUserId();
+        Receipt existing = repository.findById(userId, input.getId())
                 .orElseThrow(() -> new RuntimeException("Receipt not found: " + input.getId()));
         Receipt updated = ReceiptMapper.applyUpdate(existing, input);
-        return repository.save(updated);
+        return repository.save(userId, updated);
     }
 
     public boolean delete(String id) {
-        repository.delete(id);
+        repository.delete(requireUserId(), id);
         return true;
     }
 
     public DashboardSummary getDashboardSummary() {
-        List<Receipt> all = repository.findAll();
+        List<Receipt> all = repository.findAll(requireUserId());
         Set<String> merchants = new HashSet<>();
         double totalSpend = 0.0;
         Map<String, Double> monthMap = new TreeMap<>();

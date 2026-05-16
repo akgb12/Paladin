@@ -16,7 +16,7 @@ import java.util.*;
 @Repository
 public class ReceiptDynamoDbRepository {
 
-    private static final String USER_PK = "USER#demo";
+    private static final String USER_PK_PREFIX = "USER#";
     private static final String RECEIPT_SK_PREFIX = "RECEIPT#";
 
     private final DynamoDbClient dynamoDb;
@@ -61,11 +61,13 @@ public class ReceiptDynamoDbRepository {
                 .build());
     }
 
-    public Receipt save(Receipt receipt) {
+    public Receipt save(String userId, Receipt receipt) {
+        String pk = USER_PK_PREFIX + userId;
         String sk = RECEIPT_SK_PREFIX + safe(receipt.getReceiptDate()) + "#" + receipt.getId();
         Map<String, AttributeValue> item = new HashMap<>();
-        item.put("PK", s(USER_PK));
+        item.put("PK", s(pk));
         item.put("SK", s(sk));
+        item.put("userId", s(userId));
         item.put("receiptId", s(receipt.getId()));
         item.put("merchantRaw", s(receipt.getMerchantRaw()));
         item.put("merchantNormalized", s(receipt.getMerchantNormalized()));
@@ -75,7 +77,7 @@ public class ReceiptDynamoDbRepository {
         item.put("status", s(receipt.getStatus().name()));
         item.put("manuallyCorrected", bool(receipt.isManuallyCorrected()));
         item.put("currency", s(receipt.getCurrency() != null ? receipt.getCurrency() : "USD"));
-        item.put("GSI1PK", s("MERCHANT#" + receipt.getMerchantNormalized()));
+        item.put("GSI1PK", s(pk + "#MERCHANT#" + receipt.getMerchantNormalized()));
         item.put("GSI1SK", s("DATE#" + safe(receipt.getReceiptDate()) + "#" + receipt.getId()));
 
         if (receipt.getSubtotal() != null) item.put("subtotal", n(receipt.getSubtotal()));
@@ -93,12 +95,12 @@ public class ReceiptDynamoDbRepository {
         return receipt;
     }
 
-    public List<Receipt> findAll() {
+    public List<Receipt> findAll(String userId) {
         QueryRequest request = QueryRequest.builder()
                 .tableName(tableName)
                 .keyConditionExpression("PK = :pk AND begins_with(SK, :skPrefix)")
                 .expressionAttributeValues(Map.of(
-                        ":pk", s(USER_PK),
+                        ":pk", s(USER_PK_PREFIX + userId),
                         ":skPrefix", s(RECEIPT_SK_PREFIX)))
                 .scanIndexForward(false)
                 .build();
@@ -110,20 +112,21 @@ public class ReceiptDynamoDbRepository {
         return receipts;
     }
 
-    public Optional<Receipt> findById(String receiptId) {
-        List<Receipt> all = findAll();
+    public Optional<Receipt> findById(String userId, String receiptId) {
+        List<Receipt> all = findAll(userId);
         for (Receipt r : all) {
             if (receiptId.equals(r.getId())) return Optional.of(r);
         }
         return Optional.empty();
     }
 
-    public List<Receipt> findByMerchant(String merchantNormalized) {
+    public List<Receipt> findByMerchant(String userId, String merchantNormalized) {
+        String pk = USER_PK_PREFIX + userId;
         QueryRequest request = QueryRequest.builder()
                 .tableName(tableName)
                 .indexName("GSI1")
                 .keyConditionExpression("GSI1PK = :gsi1pk")
-                .expressionAttributeValues(Map.of(":gsi1pk", s("MERCHANT#" + merchantNormalized)))
+                .expressionAttributeValues(Map.of(":gsi1pk", s(pk + "#MERCHANT#" + merchantNormalized)))
                 .scanIndexForward(false)
                 .build();
         List<Map<String, AttributeValue>> items = dynamoDb.query(request).items();
@@ -134,13 +137,13 @@ public class ReceiptDynamoDbRepository {
         return receipts;
     }
 
-    public void delete(String receiptId) {
-        Optional<Receipt> found = findById(receiptId);
+    public void delete(String userId, String receiptId) {
+        Optional<Receipt> found = findById(userId, receiptId);
         found.ifPresent(r -> {
             String sk = RECEIPT_SK_PREFIX + safe(r.getReceiptDate()) + "#" + r.getId();
             dynamoDb.deleteItem(DeleteItemRequest.builder()
                     .tableName(tableName)
-                    .key(Map.of("PK", s(USER_PK), "SK", s(sk)))
+                    .key(Map.of("PK", s(USER_PK_PREFIX + userId), "SK", s(sk)))
                     .build());
         });
     }

@@ -1,10 +1,19 @@
 type Query {
+  me: User
   receipts: [Receipt!]!
   receipt(id: ID!): Receipt
   receiptsByMerchant(merchant: String!): [Receipt!]!
   receiptGroups: [ReceiptGroup!]!
   searchReceipts(input: ReceiptSearchInput!): [Receipt!]!
   dashboardSummary: DashboardSummary!
+}
+
+type User {
+  id: ID!
+  email: String
+  name: String
+  pictureUrl: String
+  provider: String
 }
 
 type Mutation {
